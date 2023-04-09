@@ -8,5 +8,6 @@
 /lib
 /__MACOSX/
 pyvenv.cfg
-start.wsgi
 *.json
+start.wsgi
+

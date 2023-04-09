@@ -1,7 +1,7 @@
 const springtree_legend = (_, vis, leafId, branchId) => {
     const node = _;
     const indicator_w = 30;
-    const indicator_gap = 10;
+    const indicator_gap = 25;
     const text_gap = 5;
     const fontsize = [14, 14];
 
@@ -32,7 +32,7 @@ const springtree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetNode.select('.link-fill'),
             title: "Life Expecancy",
-            content: ["The distance shows life expectancy","value, (years)."],
+            content: ["The length of the twig shows country specific"," life expectancy value, (years)."],
             sideRight: true,
             offset_y: 0.7,
             image:null,
@@ -41,7 +41,7 @@ const springtree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetBranch.select('.branch-fill'),
             title: "",
-            content: ["The length shows the average life expectancy", "value of the countries in the sub-region.", "(years)."],
+            content: ["The length of the larger branch shows ", "the average life expectancy value of the ", "countries in the sub-region. (years)."],
             sideRight: true,
             offset_y: 0.2,
             image:null,
@@ -107,6 +107,7 @@ const springtree_legend = (_, vis, leafId, branchId) => {
     function update(offset_y, offset_x) {
         const leftNodeSize = leftNode.node().getBoundingClientRect();
         const rightNodeSize = rightNode.node().getBoundingClientRect();
+
         // console.log(leftNode);
         // console.log(leftNodeSize.x, leftNodeSize.y);
 
@@ -117,7 +118,7 @@ const springtree_legend = (_, vis, leafId, branchId) => {
         })
 
         item.attr('transform', d => `translate(${d.x-offset_x}, ${d.y})`)
-        itemTitle.attr('transform', d => `translate(${rightNodeSize.x + rightNodeSize.width/2-offset_x}, ${rightNodeSize.y - fontsize[0]*5})`)
+        itemTitle.attr('transform', d => `translate(${rightNodeSize.x + rightNodeSize.width/2-offset_x}, ${rightNodeSize.y - fontsize[0]*3})`)
 
         clones.attr('transform', `translate(${0},${offset_y})`)
     }

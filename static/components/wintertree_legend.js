@@ -1,7 +1,7 @@
 const wintertree_legend = (_, vis, leafId, branchId) => {
     const node = _;
     const indicator_w = 30;
-    const indicator_gap = 20;
+    const indicator_gap = 40;
     const text_gap = 5;
     const fontsize = [14, 14];
 
@@ -32,7 +32,7 @@ const wintertree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetNode.select('.link-fill'),
             title: "Corruption Score",
-            content: ["The distance shows % people", "don't think corruption in government","as a widespread problem."],
+            content: ["The length of the twig shows the country level", "% people who don't think corruption in government","as a widespread problem."],
             sideRight: true,
             offset_y: 0.7,
             source:'https://analyticscampus.gallup.com/Tables/'
@@ -40,7 +40,7 @@ const wintertree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetBranch.select('.branch-fill'),
             title: "",
-            content: ["The length shows the average", "corruption score for ", "countries in the sub-region."],
+            content: ["The length of the main branch shows", "the average corruption score for ", "countries in the sub-region."],
             sideRight: true,
             offset_y: 0.2,
             image:null,
@@ -95,7 +95,7 @@ const wintertree_legend = (_, vis, leafId, branchId) => {
 
 
     const copyNode1 = targetNode.node();
-    console.log(targetNode.node());
+    // console.log(targetNode.node());
     const clone1 = copyNode1.cloneNode(true);
     clones.node().appendChild(clone1);
 

@@ -38,7 +38,7 @@ const wintertree = (_, data, treekeys) => {
 
     const scaleGap = d3.scaleLinear().domain([0, d3.sum(data, d => d[snow_key])])
         .range([_radial*0.02, _radial * 2])
-    console.log(d3.extent(data, d => d[snow_key]))
+    // console.log(d3.extent(data, d => d[snow_key]))
     let nestTreeData = d3.nest().key(d => d.region).entries(data);
     // nestTreeData.sort((a,b) => a.regionId - b.regionId)
     nestTreeData.forEach((d, n) => {

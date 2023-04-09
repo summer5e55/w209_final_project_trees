@@ -1,8 +1,8 @@
 const summertree_legend = (_, vis, leafId, branchId) => {
     const node = _;
     const indicator_w = 30;
-    const indicator_gap = 10;
-    const text_gap = 5;
+    const indicator_gap = 40;
+    const text_gap = 15;
     const fontsize = [14, 14];
 
     const targetNode = vis.select(`.${leafId}`);
@@ -14,7 +14,7 @@ const summertree_legend = (_, vis, leafId, branchId) => {
     const legendData = [{
             targetNode: rightNode,
             title: "GDP per Capita",
-            content: ["The length of leave shows log GDP", "per capita value.","(higher = wealthier)"],
+            content: ["The length of leave shows", "log GDP per capita value.","(higher = wealthier)"],
             sideRight: true,
             offset_y: 0.5,
             image:null,
@@ -32,7 +32,7 @@ const summertree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetNode.select('.link-fill'),
             title: "Generosity Score",
-            content: ["The distance shows the generosity ", "score, residual from regressing", "donation score to gdp."],
+            content: ["The length of the twig shows country specific ", "generosity score, residual from regressing", "donation score to gdp."],
             sideRight: true,
             offset_y: 0.7,
             image:null,
@@ -40,7 +40,7 @@ const summertree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetBranch.select('.branch-fill'),
             title: "",
-            content: ["The length shows the average generosity", "score of the countries in the sub-region.","(Dashed line indicates the negative value)"],
+            content: ["The length of the larger branch shows the average", " generosity score of the countries in the sub-region.","(Dashed line indicates the negative value)"],
             sideRight: true,
             offset_y: 0.2,
             image:`./static/imgs/branch_mark.png`,

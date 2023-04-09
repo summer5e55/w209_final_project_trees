@@ -19,7 +19,7 @@ const seasonsData = [
       id: "spring",
       rootkey: ["freedom"],
       treefilter: ["life_expectancy", "freedom", "happiness",'year'],
-      treelegend: ["leaf-EST", "branch-8"],
+      treelegend: ["leaf-FIN", "branch-8"],
       title: "health"
     },
     {

@@ -102,7 +102,7 @@ const falltree = (_, data, treekeys) => {
     const scaleLL = d3
       .scaleLinear()
       .domain(d3.extent(data, (d) => d[branch_key]))
-      .range([20, 200]);
+      .range([20, 160]);
 
     //region branch
     const scaleL = d3

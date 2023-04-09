@@ -32,7 +32,7 @@ const falltree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetNode.select('.link-fill'),
             title: "Social Support Score",
-            content: ["The distance shows % people", "who have someone to count on"],
+            content: ["The length of the twig shows the country level ", "% people who have someone to count on"],
             sideRight: true,
             offset_y: 0.8,
             image:null,
@@ -41,7 +41,7 @@ const falltree_legend = (_, vis, leafId, branchId) => {
         {
             targetNode: targetBranch.select('.branch-fill'),
             title: "",
-            content: ["The length shows the average % people with social support", "of the countries in the sub-region."],
+            content: ["The length of the main branch shows the average", " % people with social support of the countries","in the sub-region."],
             sideRight: true,
             offset_y: 0.2,
             image:null,
@@ -94,7 +94,7 @@ const falltree_legend = (_, vis, leafId, branchId) => {
 
 
     const copyNode1 = targetNode.node();
-    console.log(targetNode.node());
+    // console.log(targetNode.node());
     const clone1 = copyNode1.cloneNode(true);
     clones.node().appendChild(clone1);
 

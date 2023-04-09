@@ -1,4 +1,4 @@
-function chart(_, data, update_dom) {
+function chart(_, data, year) {
     const dom = _;
     let _width = null;
     let _height = null;
@@ -22,20 +22,19 @@ function chart(_, data, update_dom) {
     const seasonsViz = landscape.selectAll('.seasons-viz').data([0])
         .join('g').attr('class', 'seasons-viz')
 
+
+    seasonsViz.selectAll('.season-viz').remove();
+
     const seasonViz = seasonsViz.selectAll('.season-viz').data(seasonsData)
         .join('g').attr('class', d => `season-viz ${d.id}-viz`)
+        .attr('transform', (d, i) => {d.x = (i + 1) * page_w;
+                return `translate(${d.x},0)`;})
 
-    if (update_dom === true){
-        console.log(update_dom)
-            seasonViz
-            .attr('transform', (d, i) => {
-                d.x = (i + 1) * page_w;
-                return `translate(${d.x},0)`;})}
 
 
     // seasonViz.selectAll('.tree-viz').remove();
     // seasonViz.selectAll('.treeroot-viz').remove();
-    seasonViz.selectAll('.legend').remove();
+    // seasonViz.selectAll('.legend').remove();
 
     const treerootViz = seasonViz.selectAll('.treeroot-viz').data(d => [d])
         .join('g').attr('class', 'treeroot-viz')
@@ -70,11 +69,10 @@ function chart(_, data, update_dom) {
             const branchId = s.treelegend[1];
 
             const treerootlegendDom = g.select('.treeroot-legend')
-
             const treerootDom = g.select('.treeroot-viz')
-            
+
             console.log(treelegendDom.node().getBoundingClientRect());
-            // console.log(treeDom.node().getBoundingClientRect());
+            console.log(treeDom.node().getBoundingClientRect());
 
 
 
@@ -89,13 +87,13 @@ function chart(_, data, update_dom) {
                     break;
                 case 'summer':
                     summertree(treeDom, _data,s.treefilter).size(500)()
-                    
                     summertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
                     
                     break;
                 case 'fall':
                     falltree(treeDom, _data,s.treefilter).size(500)()
                     falltree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
+    
                     break;
                 default:
                     wintertree(treeDom, _data,s.treefilter).size(500)()
@@ -110,7 +108,8 @@ function chart(_, data, update_dom) {
     //update func
     const update = {};
     update.resize = () => {
-        const [view_w, view_h] = [_width || dom.node().clientWidth, _height || dom.node().clientHeight];
+        // const [view_w, view_h] = [_width || dom.node().clientWidth, _height || dom.node().clientHeight];
+        const [view_w, view_h] = [dom.node().clientWidth, dom.node().clientHeight];
         const [mx, my] = [50, 50]
 
         const box = landscape.node().getBBox();
@@ -126,6 +125,7 @@ function chart(_, data, update_dom) {
         const move_x = -(currentSeasonId === false ? -1 : currentSeasonId + 1) * page_w;
         seasonsViz.transition().duration(800).attr('transform', `translate(${move_x},0)`)
         console.log(move_x)
+
     }
 
     update.legend = (show) => {
@@ -140,6 +140,7 @@ function chart(_, data, update_dom) {
         }
         // sunlightViz.classed('d-none', show);
     }
+
 
     return update;
 }
