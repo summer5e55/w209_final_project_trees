@@ -50,6 +50,7 @@ const wintertree_legend = (_, vis, leafId, branchId) => {
     let item = node.selectAll('.legent-item').data(legendData)
         .join('g').attr('class', 'legent-item')
 
+    // console.log(node.node().getBoundingClientRect());
 
     item.selectAll('.indicator').data(d => [d])
         .join('path').attr('class', 'indicator')
@@ -106,8 +107,8 @@ const wintertree_legend = (_, vis, leafId, branchId) => {
     function update(offset_y,offset_x) {
         const leftNodeSize = leftNode.node().getBoundingClientRect();
         const rightNodeSize = rightNode.node().getBoundingClientRect();
-        console.log(leftNodeSize.x + 600, leftNodeSize.y)
-        console.log(leftNodeSize.x, leftNodeSize.y)
+        // console.log(leftNodeSize.x + 600, leftNodeSize.y)
+        // console.log(leftNodeSize.x, leftNodeSize.y)
 
         legendData.forEach(d => {
             const targetNodeSize = d.targetNode.node().getBoundingClientRect();

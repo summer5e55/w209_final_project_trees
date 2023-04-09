@@ -47,6 +47,8 @@ const springtree_legend = (_, vis, leafId, branchId) => {
             image:null,
         },
     ]
+
+
     const item = node.selectAll('.legent-item').data(legendData)
         .join('g').attr('class', 'legent-item')
 
@@ -105,7 +107,8 @@ const springtree_legend = (_, vis, leafId, branchId) => {
     function update(offset_y, offset_x) {
         const leftNodeSize = leftNode.node().getBoundingClientRect();
         const rightNodeSize = rightNode.node().getBoundingClientRect();
-        console.log(leftNodeSize.x, leftNodeSize.y)
+        // console.log(leftNode);
+        // console.log(leftNodeSize.x, leftNodeSize.y);
 
         legendData.forEach(d => {
             const targetNodeSize = d.targetNode.node().getBoundingClientRect();

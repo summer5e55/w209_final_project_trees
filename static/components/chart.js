@@ -1,4 +1,4 @@
-function chart(_, data) {
+function chart(_, data, update_dom) {
     const dom = _;
     let _width = null;
     let _height = null;
@@ -15,19 +15,27 @@ function chart(_, data) {
     // const sunlightViz = landscape.selectAll('.sunlight-viz').data([0])
     //     .join('g').attr('class', 'sunlight-viz')
 
+    // if (!landscape.selectAll('.seasons-viz').node()){
+    //     landscape.selectAll('.seasons-viz').remove();
+    // }
+
     const seasonsViz = landscape.selectAll('.seasons-viz').data([0])
         .join('g').attr('class', 'seasons-viz')
 
-
     const seasonViz = seasonsViz.selectAll('.season-viz').data(seasonsData)
         .join('g').attr('class', d => `season-viz ${d.id}-viz`)
-        .attr('transform', (d, i) => {
-            d.x = (i + 1) * page_w;
-            return `translate(${d.x},0)`;
-        })
 
-    seasonViz.selectAll('.tree-viz').remove();
-    seasonViz.selectAll('.treeroot-viz').remove();
+    if (update_dom === true){
+        console.log(update_dom)
+            seasonViz
+            .attr('transform', (d, i) => {
+                d.x = (i + 1) * page_w;
+                return `translate(${d.x},0)`;})}
+
+
+    // seasonViz.selectAll('.tree-viz').remove();
+    // seasonViz.selectAll('.treeroot-viz').remove();
+    seasonViz.selectAll('.legend').remove();
 
     const treerootViz = seasonViz.selectAll('.treeroot-viz').data(d => [d])
         .join('g').attr('class', 'treeroot-viz')
@@ -38,7 +46,7 @@ function chart(_, data) {
     const legend = seasonViz.selectAll('.legend').data(d => [d])
         .join('g').attr('class', 'legend')
 
-     // Clear any existing tree legend
+    //  // Clear any existing tree legend
     legend.selectAll('.tree-legend').remove();
     legend.selectAll('.treeroot-legend').remove();
 
@@ -64,6 +72,10 @@ function chart(_, data) {
             const treerootlegendDom = g.select('.treeroot-legend')
 
             const treerootDom = g.select('.treeroot-viz')
+            
+            console.log(treelegendDom.node().getBoundingClientRect());
+            // console.log(treeDom.node().getBoundingClientRect());
+
 
 
             treeroot(treerootDom, data.past, s.rootkey).offset_y(410).trunk_h(200)(); //leave l max = 160, branch max = 500/2
@@ -113,6 +125,7 @@ function chart(_, data) {
         //locate to selected season
         const move_x = -(currentSeasonId === false ? -1 : currentSeasonId + 1) * page_w;
         seasonsViz.transition().duration(800).attr('transform', `translate(${move_x},0)`)
+        console.log(move_x)
     }
 
     update.legend = (show) => {

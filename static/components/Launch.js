@@ -81,17 +81,16 @@ Promise.all([presentData_row, pastData_row])
         }
 
 
-        let chartVis = chart(visContainer, allData)
+        let chartVis = chart(visContainer, allData, true)
         chartVis.legend(showLegend)
         updateSeason()
-
 
 
         select_year.addEventListener('change', function() {
             currentYear = +this.value;
             presentDataNow = presentData.filter( d => d.year===currentYear);
             allData.present = presentDataNow.sort((a, b) => a.region_order - b.region_order);
-            chartVis = chart(visContainer, allData);
+            chartVis = chart(visContainer, allData, false);
             chartVis.legend(showLegend);
 
         });
