@@ -58,7 +58,7 @@ Promise.all([presentData_row, pastData_row])
             menuList.select('.title').html(seasonInfo.id)
             menuList.select('.menu-subtitle').html(seasonInfo.title)
             menuList.select('.menu-treecontent').selectAll('.treecontent-item')
-                .data(seasonInfo.treefilter).join('div').attr('class', 'treecontent-item mb-1 fw-light')
+                .data(seasonInfo.treefilter.slice(0,3)).join('div').attr('class', 'treecontent-item mb-1 fw-light')
                 .html((d,i) => {
                     let icon = `branch`;
                     if(i == 1)icon = `leaf_${seasonInfo.id}`;
