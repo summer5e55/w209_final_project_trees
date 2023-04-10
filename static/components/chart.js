@@ -1,4 +1,4 @@
-function chart(_, data, year) {
+function chart(_, data, sortBranch) {
     const dom = _;
     let _width = null;
     let _height = null;
@@ -7,7 +7,7 @@ function chart(_, data, year) {
 
     const svg = dom.selectAll('.canvas').data([0])
         .join('svg').attr('class', 'canvas')
-
+      
 
     const landscape = svg.selectAll('.landscape').data([0])
         .join('g').attr('class', 'landscape')
@@ -15,9 +15,12 @@ function chart(_, data, year) {
     // const sunlightViz = landscape.selectAll('.sunlight-viz').data([0])
     //     .join('g').attr('class', 'sunlight-viz')
 
-    // if (!landscape.selectAll('.seasons-viz').node()){
-    //     landscape.selectAll('.seasons-viz').remove();
+    // if (landscape.selectAll('.seasons-viz').node()){
+    //     landscape.selectAll('.seasons-viz').node().remove();
     // }
+
+    console.log(svg.node().getBoundingClientRect())
+    console.log(landscape.node().getBoundingClientRect())
 
     const seasonsViz = landscape.selectAll('.seasons-viz').data([0])
         .join('g').attr('class', 'seasons-viz')
@@ -71,8 +74,8 @@ function chart(_, data, year) {
             const treerootlegendDom = g.select('.treeroot-legend')
             const treerootDom = g.select('.treeroot-viz')
 
-            console.log(treelegendDom.node().getBoundingClientRect());
-            console.log(treeDom.node().getBoundingClientRect());
+            // console.log(treelegendDom.node().getBoundingClientRect());
+            // console.log(treeDom.node().getBoundingClientRect());
 
 
 
@@ -81,22 +84,22 @@ function chart(_, data, year) {
 
             switch (s.id) {
                 case 'spring':
-                    springtree(treeDom, _data,s.treefilter).size(500)()
+                    springtree(treeDom, _data,s.treefilter, sortBranch).size(500)()
                     springtree_legend(treelegendDom, g,leafId, branchId)(500 - 90, s.x)
                     
                     break;
                 case 'summer':
-                    summertree(treeDom, _data,s.treefilter).size(500)()
+                    summertree(treeDom, _data,s.treefilter, sortBranch).size(500)()
                     summertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
                     
                     break;
                 case 'fall':
-                    falltree(treeDom, _data,s.treefilter).size(500)()
+                    falltree(treeDom, _data,s.treefilter, sortBranch).size(500)()
                     falltree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
     
                     break;
                 default:
-                    wintertree(treeDom, _data,s.treefilter).size(500)()
+                    wintertree(treeDom, _data,s.treefilter, sortBranch).size(500)()
                     wintertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
                     
             }

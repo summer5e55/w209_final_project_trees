@@ -1,4 +1,4 @@
-const summertree = (_, data, treekeys) => {
+const summertree = (_, data, treekeys, sort) => {
   let dom = _;
   let _width = null;
   let _height = null;
@@ -87,8 +87,9 @@ const summertree = (_, data, treekeys) => {
     // d.hpi = Math.round(d.hpi * 10)/10;
   });
   // nestTreeData = nestTreeData.filter(d => d.hpi)
-  // nestTreeData.sort((a, b) => regionorder.indexOf(a.name) - regionorder.indexOf(b.name))
-
+  if (sort){
+  nestTreeData.sort((a, b) => a[branch_key] - b[branch_key]);
+  };
   // console.log(nestTreeData)
 
   function update() {

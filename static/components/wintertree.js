@@ -1,4 +1,4 @@
-const wintertree = (_, data, treekeys) => {
+const wintertree = (_, data, treekeys, sort) => {
 
     let dom = _;
     let _width = null;
@@ -16,7 +16,7 @@ const wintertree = (_, data, treekeys) => {
     // const core_key = 'gdp';
     const [branch_key, snow_key, core_key, year_key] = treekeys;
 
-    const rotate = {
+    let rotate = {
         1: -5,
         2: 3,
         3: -3,
@@ -45,8 +45,8 @@ const wintertree = (_, data, treekeys) => {
         d.id = `branch-${n}`;
         d.name = d.key;
         d.children = d.values;
-        // d.count = d.children.length;
-        // d.wipe = (d.count - 1) * gap;
+        d.count = d.children.length;
+        d.wipe = (d.count - 1) * gap;
         d.children.sort((a, b) => b[branch_key] - a[branch_key])
         d.rotate = rotate[n] || 0;
         // d.rotate = 0;
@@ -56,11 +56,11 @@ const wintertree = (_, data, treekeys) => {
         d.children.forEach((e, i) => {
             e.order = i;
             e.id = `leaf-${e.name}`;
-            e.wipe = scaleGap(e[snow_key]);
-            e.wipe_s = _wipe;
-            _wipe = _wipe + e.wipe
+            // e.wipe = scaleGap(e[snow_key]);
+            // e.wipe_s = _wipe;
+            // _wipe = _wipe + e.wipe
         })
-        d.wipe = d3.sum(d.children, e => e.wipe)
+        // d.wipe = d3.sum(d.children, e => e.wipe)
 
         // d[snow_key] = d3.mean(d.children, n => n[snow_key]);
         d[branch_key] = d3.mean(d.children, n => n[branch_key]);
@@ -68,6 +68,9 @@ const wintertree = (_, data, treekeys) => {
 
     })
 
+    if (sort){
+    nestTreeData.sort((a, b) => a[branch_key] - b[branch_key]);
+    };
 
 
     // console.log(nestTreeData)
@@ -172,8 +175,8 @@ const wintertree = (_, data, treekeys) => {
                 // e.source = {"angle":d.target.angle,"radius":0,x:0,y:0};
                 e.source = d.target;
                 // e.target = { "angle": e.source.angle - d.data.wipe / 2 / e.source.radius + gap / e.source.radius * e.data.order, "radius": e.source.radius + 40 };
-                // e.target = {"angle":e.source.angle - d.data.wipe/2 + gap*e.data.order,"radius":scaleLL(e.data[branch_key])}
-                e.target = { "angle": e.source.angle - d.data.wipe / 2 + e.data.wipe / 2 + e.data.wipe_s, "radius": scaleLL(e.data[branch_key]) }
+                e.target = {"angle":e.source.angle - d.data.wipe/2 + gap*e.data.order,"radius":scaleLL(e.data[branch_key])}
+                // e.target = { "angle": e.source.angle - d.data.wipe / 2 + e.data.wipe / 2 + e.data.wipe_s, "radius": scaleLL(e.data[branch_key]) }
                 // e.link = d3.linkRadial()
                 //     .angle(n => n.angle)
                 //     .radius(n => n.radius)(e)

@@ -1,4 +1,4 @@
-const falltree = (_, data, treekeys) => {
+const falltree = (_, data, treekeys, sort) => {
   let dom = _;
   let _width = null;
   let _height = null;
@@ -78,6 +78,9 @@ const falltree = (_, data, treekeys) => {
     //round value
     // d.hpi = Math.round(d.hpi * 10)/10;
   });
+  if (sort){
+  nestTreeData.sort((a, b) => a[branch_key] - b[branch_key]);
+  };
   // nestTreeData = nestTreeData.filter(d => d.hpi)
   // nestTreeData.sort((a, b) => regionorder.indexOf(a.name) - regionorder.indexOf(b.name))
 

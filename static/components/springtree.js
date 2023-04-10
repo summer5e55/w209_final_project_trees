@@ -1,11 +1,11 @@
-const springtree = (_, data, treekeys) => {
+const springtree = (_, data, treekeys, sort) => {
   let dom = _;
   let _width = null;
   let _height = null;
   let size1 = 1.2;
   let _radial = size1 * Math.PI;
   let _startAngle = (2 - size1 / 2) * Math.PI;
-  let gap = 0.036 * Math.PI;
+  let gap = 0.03 * Math.PI;
   let _size = 500;
   // let gap = 15; //arc length
   const branchColor = "#b0a39e";
@@ -14,13 +14,13 @@ const springtree = (_, data, treekeys) => {
   // const core_key = 'gdp';
   const [branch_key, leaf_key, core_key,year_key] = treekeys;
 
-  const rotate = {
-  2:15,
-  3:-10,
-  4:10,
+  let rotate = {
+  // 2:15,
+  // 3:-10,
+  4:-7,
   5:-5,
   6:-5,
-  7:-5,
+  // 7:-5,
   15:-5,
   17:2,
   18:5
@@ -58,6 +58,10 @@ const springtree = (_, data, treekeys) => {
     // 15: 2,
     // 16: 4
   };
+
+
+
+
   const scaleGap = d3
     .scaleLinear()
     .domain([0, d3.sum(data, (d) => d[leaf_key])])
@@ -72,9 +76,9 @@ const springtree = (_, data, treekeys) => {
     d.id = `branch-${n}`;
     d.name = d.key;
     d.children = d.values;
-    // d.count = d.children.length;
-    // d.wipe = (d.count - 1) * gap;
-    d.children.sort((a, b) => b[branch_key] - a[branch_key]);
+    // d.count = d.children.length;  //update new
+    // d.wipe = (d.count - 1) * gap; //update new
+    d.children.sort((a, b) => a[branch_key] - b[branch_key]);
     d.rotate = rotate[n] || 0;
 
     delete d.values;
@@ -83,11 +87,11 @@ const springtree = (_, data, treekeys) => {
     d.children.forEach((e, i) => {
       e.order = i;
       e.id = `leaf-${e.name}`;
-      e.wipe = scaleGap(e[leaf_key]);
-      e.wipe_s = _wipe;
-      _wipe = _wipe + e.wipe;
+      e.wipe = scaleGap(e[leaf_key]);  //update new
+      e.wipe_s = _wipe; //update new
+      _wipe = _wipe + e.wipe; //update new
     });
-    d.wipe = d3.sum(d.children, (e) => e.wipe);
+    d.wipe = d3.sum(d.children, (e) => e.wipe); //update new
 
     d[branch_key] = d3.mean(d.children, (n) => n[branch_key]);
     // d[leaf_key] = d3.mean(d.children, n => n[leaf_key]);
@@ -95,6 +99,11 @@ const springtree = (_, data, treekeys) => {
     //round value
     d[branch_key] = Math.round(d[branch_key] * 10) / 10;
   });
+
+  if (sort){
+  nestTreeData.sort((a, b) => a[branch_key] - b[branch_key]);
+  // rotate = {};
+  };
 
   function update() {
     const fontsize = 8;
@@ -183,7 +192,7 @@ const springtree = (_, data, treekeys) => {
         e.leaf_fillOpacity = 0.9;
 
         e.source = d.target;
-        // e.target = {"angle":e.source.angle - d.data.wipe/2 + gap*e.data.order,"radius":scaleLL(e.data[branch_key])}
+        // e.target = {"angle":e.source.angle - d.data.wipe/2 + gap*e.data.order,"radius":scaleLL(e.data[branch_key])} //update new
         // e.target = {"angle":e.x + _startAngle,"radius":scaleLL(e.data[branch_key])}
         e.target = {
           angle:

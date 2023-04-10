@@ -7,6 +7,7 @@ const tooltipContent = d3.select('#tooltipContent');
 const legendBtn = d3.select('#btn-legend')
 
 let showLegend = false;
+let sortBranch = false;
 
 let currentSeasonId = 0;
 
@@ -16,6 +17,7 @@ const menuList = d3.select('#menu-list');
 const btnNext = d3.select('#btn-next');
 const btnPre = d3.select('#btn-pre');
 // const selectYear = d3.select("#select_year");
+const btnSort = d3.select('#btn-sort');
 
 const select_year = document.querySelector('#select-year');
 
@@ -31,10 +33,6 @@ Promise.all([presentData_row, pastData_row])
         presentDataNow = presentData.filter( d => d.year===currentYear);
         allData.present = presentDataNow.sort((a, b) => a.region_order - b.region_order);
 
-
-        // presentDataNow = presentData.filter( d => d.year===currentYear);
-        // allData.present = presentDataNow.sort((a, b) => a.regionId - b.regionId);
-        // allData.future = futureData;
 
         // console.log(allData,sources)
         const seasonSize = seasonsData.length;
@@ -81,7 +79,7 @@ Promise.all([presentData_row, pastData_row])
         }
 
 
-        let chartVis = chart(visContainer, allData)
+        let chartVis = chart(visContainer, allData, sortBranch)
         chartVis.legend(showLegend)
         updateSeason()
 
@@ -90,10 +88,16 @@ Promise.all([presentData_row, pastData_row])
             currentYear = +this.value;
             presentDataNow = presentData.filter( d => d.year===currentYear);
             allData.present = presentDataNow.sort((a, b) => a.region_order - b.region_order);
-            chartVis = chart(visContainer, allData);
+            chartVis = chart(visContainer, allData, sortBranch);
             // chartVis.resize();
             chartVis.legend(showLegend);
+        });
 
+
+        btnSort.on('click', function () {
+            sortBranch = !sortBranch
+            chartVis = chart(visContainer, allData, sortBranch);
+            chartVis.legend(showLegend);
         });
 
 
