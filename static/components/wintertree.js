@@ -17,12 +17,13 @@ const wintertree = (_, data, treekeys, sort) => {
     const [branch_key, snow_key, core_key, year_key] = treekeys;
 
     let rotate = {
-        1: -5,
-        2: 3,
-        3: -3,
-        4: 3,
-        5: 3,
-        6: 3,
+        1: -15,
+        2: -10,
+        3: -5,
+        4: -5,
+        5: -3,
+        6: 10,
+        7: 5,
         8: 4,
         9: 3,
         10:-20,
@@ -47,7 +48,7 @@ const wintertree = (_, data, treekeys, sort) => {
         d.children = d.values;
         d.count = d.children.length;
         d.wipe = (d.count - 1) * gap;
-        d.children.sort((a, b) => b[branch_key] - a[branch_key])
+        d.children.sort((a, b) => a[branch_key] - b[branch_key])
         d.rotate = rotate[n] || 0;
         // d.rotate = 0;
         delete d.values;
@@ -70,6 +71,7 @@ const wintertree = (_, data, treekeys, sort) => {
 
     if (sort){
     nestTreeData.sort((a, b) => a[branch_key] - b[branch_key]);
+    // rotate = {}
     };
 
 
@@ -125,7 +127,7 @@ const wintertree = (_, data, treekeys, sort) => {
         );
         // console.log(_data)
         const drawData = root.children;
-        drawData.sort((a, b) => b.data[branch_key] - a.data[branch_key])
+        drawData.sort((a, b) => a.data[branch_key] - b.data[branch_key])
         drawData.forEach(d => {
             // x as an angle and y as a radius
             // d.target.angle = d.x + _startAngle;
