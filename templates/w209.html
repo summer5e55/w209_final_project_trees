@@ -17,34 +17,41 @@
     <link rel="stylesheet" href="./static/styles/tooltip.css" />
     <link rel="stylesheet" href="./static/styles/profile.css" />
     <link rel="stylesheet" href="./static/styles/index.css" />
+    <link href="https://cdn.jsdelivr.net/npm/intro.js@7.0.1/minified/introjs.min.css" rel="stylesheet">
 </head>
 
 <body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        introJs().start();
+        console.log("DOM content has loaded");
+        });
+    </script>
     <div class="container-fluid position-relative g-0">
         <div class="col-12 graph" id="visContainer"></div>
-        <button id="btn-about" type="button" class="badge d-flex align-items-center justify-content-center position-fixed" data-bs-toggle="modal" data-bs-target="#about"><i class="icon-info"></i></button>
+        <button id="btn-about" type="button" class="badge d-flex align-items-center justify-content-center position-fixed" data-bs-toggle="modal" data-bs-target="#about" data-title="About Info" data-intro="Click here for more info on the happiness data." data-step = 2><i class="icon-info"></i></button>
         <img class="logo position-fixed" src="./static/imgs/mids_vis.png">
     </div>
 
-    <div class="container-fluid position-fixed" id="menu-list">
+    <div class="container-fluid position-fixed" id="menu-list" data-title="Welcome!👋" data-intro=" Here's a quick tutorial on how to navigate!" class="card-demo">
         <div class="menu position-relative">
             <div class="btn-play disabled position-absolute" id="btn-pre">
                 <div class="icon-angle-left fs-3"></div>
             </div>
             <div class="d-flex flex-column menu-title px-2">
                 <div class="title fs-1 text-uppercase fw-lighter"></div>
-                <div class="menu-subtitle text-uppercase fw-light fs-4 mb-2"></div>
+                <div class="menu-subtitle text-uppercase fw-light fs-4 mb-2" data-title="Notice the dimensions of happiness" data-intro="Each season is associated with a dimension of happiness (e.g., Health, Prosperity, etc.)" data-step = 4></div>
                 <div class="menu-content col-12 d-flex flex-column fs-7">
                     <div class="menu-treecontent mb-2"></div>
                     <div class="menu-rootcontent"></div>
                 </div>
-                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between">
+                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between" data-title="Explore the data over time" data-intro="Use the drop down to see how happiness has changed from year-to-year" data-step = 5>
                     <span>Click to Learn to How to Read</span> <i class="icon-question"></i>
                 </button>
 
                 <button id="btn-sort" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between", onclick="myFunction()">
                    <div id="btn-txt">Sort Branch</div>
-                   <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="30%" heihgt="30%" viewBox="0 150 744 1052">
+                   <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="30%" heihgt="30%" viewBox="0 150 744 1052"></svg>
                     <path  stroke-dashoffset="6265" stroke-dasharray="6265" d="m351 487c0 8-11 4-14-1-6-11 4-24 15-27 19-5 37 11 40 30 4 27-18 50-44 53-35 4-64-25-66-59-3-42 32-77 73-79 50-3 90 39 92 88 2 57-46 104-102 105-65 2-117-53-119-117-1-72 60-131 131-132 80-1 144 67 145 146 1 87-74 158-160 158-95 0-171-81-171-175 0-102 88-185 190-184 110 1 198 95 197 204C557 615 456 709 340 708 215 706 115 598 117 475 119 342 233 236 364 238 504 240 616 361 614 500 611 648 484 766 337 763 182 760 58 626 61 472 65 309 206 179 367 183c170 4 306 151 302 320-4 178-158 319-335 315" style="fill:none;stroke:#000" stroke-width="2">
                     <animate attributeName="stroke-dashoffset" values="6265;0;6265;0" dur="15s" fill="freeze" /> 
                     </path>
@@ -80,7 +87,7 @@
                 </select>
 
             </div>
-            <div class="btn-play position-absolute" id="btn-next">
+            <div class="btn-play position-absolute" id="btn-next" data-title="Explore the Seasons of Happiness" data-intro="Use the arrows next to the season names to explore different happiness trees/themes" data-step = 3>
                 <div class="icon-angle-right fs-3"></div>
             </div>
         </div>
@@ -202,6 +209,7 @@
     <script type="text/javascript" src="./static/components/Launch.js"></script>
     <script type="text/javascript" src="./static/components/valueChart.js"></script>
     <script type="text/javascript" src="./static/components/profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.0.1/intro.min.js"></script>
 
 </body>
 
