@@ -93,7 +93,7 @@ const springtree_legend = (_, vis, leafId, branchId) => {
         .join('g').attr('class', 'clones')
 
 
-// 
+ 
     const copyNode1 = targetNode.node();
     // const copyNode1 = d3.select(vis.node().cloneNode(true)).select(`.${leafId}`).node();
     const clone1 = copyNode1.cloneNode(true);
@@ -103,6 +103,19 @@ const springtree_legend = (_, vis, leafId, branchId) => {
     const clone2 = copyNode2.cloneNode(true);
     clones.node().appendChild(clone2);
 
+    // function getNodePositionRelativeToSvg(node, svg) {
+    //   let currentNode = node;
+    //   let transformMatrix = svg.getScreenCTM().inverse();
+
+    //   while (currentNode !== svg) {
+    //     transformMatrix = currentNode.getCTM().multiply(transformMatrix);
+    //     currentNode = currentNode.parentNode;
+    //   }
+    //    return {
+    // x: transformMatrix.e,
+    // y: transformMatrix.f};
+    // }
+
 
     function update(offset_y, offset_x) {
         const leftNodeSize = leftNode.node().getBoundingClientRect();
@@ -110,6 +123,20 @@ const springtree_legend = (_, vis, leafId, branchId) => {
 
         // console.log(leftNode);
         // console.log(leftNodeSize.x, leftNodeSize.y);
+        // const left_pos = getNodePositionRelativeToSvg(leftNode.node(), vis.node());
+        // const right_pos = getNodePositionRelativeToSvg(rightNode.node(),vis.node());
+
+
+        // legendData.forEach(d => {
+        //     const targetNodeSize = d.targetNode.node().getBoundingClientRect();
+        //     const target_pos = getNodePositionRelativeToSvg(d.targetNode.node(), vis.node());
+        //     d.x = d.sideRight ? right_pos.x + rightNodeSize.width + indicator_gap + indicator_w : left_pos.x - indicator_gap - indicator_w;
+        //     d.y = target_pos.y + targetNodeSize.height * d.offset_y;
+        // })
+
+        // item.attr('transform', d => `translate(${d.x-offset_x}, ${d.y})`)
+        // itemTitle.attr('transform', d => `translate(${right_pos.x + rightNodeSize.width/2-offset_x}, ${right_pos.y - fontsize[0]*3})`)
+        // clones.attr('transform', `translate(${0},${offset_y})`)
 
         legendData.forEach(d => {
             const targetNodeSize = d.targetNode.node().getBoundingClientRect();
@@ -119,7 +146,6 @@ const springtree_legend = (_, vis, leafId, branchId) => {
 
         item.attr('transform', d => `translate(${d.x-offset_x}, ${d.y})`)
         itemTitle.attr('transform', d => `translate(${rightNodeSize.x + rightNodeSize.width/2-offset_x}, ${rightNodeSize.y - fontsize[0]*3})`)
-
         clones.attr('transform', `translate(${0},${offset_y})`)
     }
     return update;

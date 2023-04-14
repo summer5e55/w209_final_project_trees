@@ -1,4 +1,4 @@
-function chart(_, data, sortBranch) {
+function chart(_, data, sortBranch, legend_offset) {
     const dom = _;
     let _width = null;
     let _height = null;
@@ -19,8 +19,8 @@ function chart(_, data, sortBranch) {
     //     landscape.selectAll('.seasons-viz').node().remove();
     // }
 
-    console.log(svg.node().getBoundingClientRect())
-    console.log(landscape.node().getBoundingClientRect())
+    // console.log(svg.node().getBoundingClientRect())
+    // console.log(landscape.node().getBoundingClientRect())
 
     const seasonsViz = landscape.selectAll('.seasons-viz').data([0])
         .join('g').attr('class', 'seasons-viz')
@@ -28,11 +28,13 @@ function chart(_, data, sortBranch) {
 
     seasonsViz.selectAll('.season-viz').remove();
 
+
     const seasonViz = seasonsViz.selectAll('.season-viz').data(seasonsData)
         .join('g').attr('class', d => `season-viz ${d.id}-viz`)
         .attr('transform', (d, i) => {d.x = (i + 1) * page_w;
                 return `translate(${d.x},0)`;})
-
+        
+    
 
 
     // seasonViz.selectAll('.tree-viz').remove();
@@ -66,7 +68,6 @@ function chart(_, data, sortBranch) {
             const treeDom = g.select('.tree-viz');
             const _data = data.present.filter(e => s.treefilter.reduce((acc, cur) => acc && e[cur], true));
             
-
             const treelegendDom = g.select('.tree-legend');
             const leafId = s.treelegend[0];
             const branchId = s.treelegend[1];
@@ -78,15 +79,17 @@ function chart(_, data, sortBranch) {
             // console.log(treeDom.node().getBoundingClientRect());
 
 
-
             treeroot(treerootDom, data.past, s.rootkey).offset_y(410).trunk_h(200)(); //leave l max = 160, branch max = 500/2
             treeroot_legend(treerootlegendDom, g, s.rootkey)(410, 200, s.x)
 
             switch (s.id) {
                 case 'spring':
                     springtree(treeDom, _data,s.treefilter, sortBranch).size(500)()
+                    if (legend_offset===true){
                     springtree_legend(treelegendDom, g,leafId, branchId)(500 - 90, s.x)
-                    
+                    } else {
+                        springtree_legend(treelegendDom, g,leafId, branchId)(500 -90 + 20, s.x - 250)
+                    }
                     break;
                 case 'summer':
                     summertree(treeDom, _data,s.treefilter, sortBranch).size(500)()

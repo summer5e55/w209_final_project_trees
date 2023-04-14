@@ -19,11 +19,25 @@ const btnPre = d3.select('#btn-pre');
 // const selectYear = d3.select("#select_year");
 const btnSort = d3.select('#btn-sort');
 
-const select_year = document.querySelector('#select-year');
-
-
-
+// const select_year = document.querySelector('#select-year');
 let currentYear = 2021
+
+const years = Array.from({length:12}, (_, i)=> 2010 + i);
+const yearScrubber = Scrubber(years, {
+    format: value => `${value}`,
+    initial: currentYear - years[0],
+    delay: 500,
+    loop: false
+});
+yearScrubber.id = 'year-scrubber';
+document.querySelector("#scrubber-container").append(yearScrubber);
+
+
+
+// const urlSearchParams = new URLSearchParams(window.location.search);
+
+// let currentYear = Number(urlSearchParams.get('year'));
+
 
 Promise.all([presentData_row, pastData_row])
     .then(([presentData, pastData]) => {
@@ -79,19 +93,29 @@ Promise.all([presentData_row, pastData_row])
         }
 
 
-        let chartVis = chart(visContainer, allData, sortBranch)
+        let chartVis = chart(visContainer, allData, sortBranch, true)
         chartVis.legend(showLegend)
         updateSeason()
 
 
-        select_year.addEventListener('change', function() {
-            currentYear = +this.value;
-            presentDataNow = presentData.filter( d => d.year===currentYear);
-            allData.present = presentDataNow.sort((a, b) => a.region_order - b.region_order);
+        // select_year.addEventListener('change', function() {
+        //     currentYear = +this.value;
+        //     // urlSearchParams.set('year', currentYear);
+        //     // window.location.search=urlSearchParams.toString();
+        //     presentDataNow = presentData.filter( d => d.year===currentYear);
+        //     allData.present = presentDataNow.sort((a, b) => a.region_order - b.region_order);
+        //     chartVis = chart(visContainer, allData, sortBranch, false);
+        //     // chartVis.resize();
+        //     chartVis.legend(showLegend);
+        // });
+
+        yearScrubber.addEventListener("input", function() {
+            currentYear = +yearScrubber.value;
+            presentDataNow = presentData.filter(d => d.year === currentYear);
+            allData.present = presentDataNow.sort((a,b) => a.region_order - b.region_order);
             chartVis = chart(visContainer, allData, sortBranch);
-            // chartVis.resize();
             chartVis.legend(showLegend);
-        });
+        })
 
 
         btnSort.on('click', function () {
