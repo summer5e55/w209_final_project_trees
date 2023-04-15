@@ -77,7 +77,7 @@ const updateTooltip = (_data, dom, chart, keys) => {
                             }).join('')}
                         </div>
                         <div class="border-top text-center mt-1 pt-1 col-12">
-                            <p class="fs-7 text-muted">Click to read more</p>
+                            <p class="fs-7 text-muted">Click leaf to read more</p>
                         </div>
                     </div>
                 `

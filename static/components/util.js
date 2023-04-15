@@ -192,4 +192,4 @@ function highlightNodeById(dom, nodeId) {
 }
 
 const dur = 700;
-const wait_dur = 20;
+const wait_dur = 22;

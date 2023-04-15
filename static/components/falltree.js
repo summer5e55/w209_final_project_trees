@@ -275,7 +275,7 @@ const falltree = (_, data, treekeys, sort) => {
       .on("mouseover", function (d) {
         if (showLegend) return;
         d3.event.stopPropagation();
-        updateTooltip(d, d3.select(this).node(), `present-country`, treekeys);
+        updateTooltip(d, d3.select(this).node(), `present-country`, treekeys.slice(0,3));
       })
       .on("mouseout", (d) => {
         if (showLegend) return;
