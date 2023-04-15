@@ -103,14 +103,6 @@ Promise.all([presentData_row, pastData_row])
         //     chartVis.legend(showLegend);
         // });
 
-        yearScrubber.addEventListener("input", function() {
-            currentYear = +yearScrubber.value;
-            presentDataNow = presentData.filter(d => d.year === currentYear);
-            allData.present = presentDataNow.sort((a,b) => a.region_order - b.region_order);
-            chartVis = chart(visContainer, allData, sortBranch, false);
-            chartVis.legend(showLegend);
-        })
-
 
         btnSort.on('click', function () {
             sortBranch = !sortBranch
@@ -150,6 +142,14 @@ Promise.all([presentData_row, pastData_row])
         searchMode = !searchMode;
         });
         
+        yearScrubber.addEventListener("input", function() {
+            currentYear = +yearScrubber.value;
+            presentDataNow = presentData.filter(d => d.year === currentYear);
+            allData.present = presentDataNow.sort((a,b) => a.region_order - b.region_order);
+            chartVis = chart(visContainer, allData, sortBranch, false);
+            chartVis.legend(showLegend);
+        })
+
 
         legendBtn.on('click', function() {
             showLegend = !showLegend;
