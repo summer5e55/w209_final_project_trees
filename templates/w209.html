@@ -17,29 +17,31 @@
     <link rel="stylesheet" href="./static/styles/tooltip.css" />
     <link rel="stylesheet" href="./static/styles/profile.css" />
     <link rel="stylesheet" href="./static/styles/index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.0.1/introjs.css" />
+
 </head>
 
 <body>
     <div class="container-fluid position-relative g-0">
         <div class="col-12 graph" id="visContainer"></div>
-        <button id="btn-about" type="button" class="badge d-flex align-items-center justify-content-center position-fixed" data-bs-toggle="modal" data-bs-target="#about"><i class="icon-info"></i></button>
+        <button id="btn-about" type="button" class="badge d-flex align-items-center justify-content-center position-fixed" data-bs-toggle="modal" data-bs-target="#about" data-title="About Info" data-intro="Click here for more info on the happiness data." data-step = 2><i class="icon-info"></i></button>
         <img class="logo position-fixed" src="./static/imgs/mids_vis.png">
     </div>
 
-    <div class="container-fluid position-fixed" id="menu-list">
+    <div class="container-fluid position-fixed" id="menu-list" data-title="Welcome!👋" data-intro=" Here's a quick tutorial on how to navigate!" class="card-demo" data-step=1>
         <div class="menu position-relative">
             <div class="btn-play disabled position-absolute" id="btn-pre">
                 <div class="icon-angle-left fs-3"></div>
             </div>
             <div class="d-flex flex-column menu-title px-2">
                 <div class="title fs-1 text-uppercase fw-lighter"></div>
-                <div class="menu-subtitle text-uppercase fw-light fs-4 mb-2"></div>
+                <div class="menu-subtitle text-uppercase fw-light fs-4 mb-2" data-title="Notice the dimensions of happiness" data-intro="Each season is associated with a dimension of happiness (e.g., Health, Prosperity, etc.)" data-step = 4></div>
                 <div class="menu-content col-12 d-flex flex-column fs-7">
                     <div class="menu-treecontent mb-2"></div>
                     <div class="menu-rootcontent"></div>
                 </div>
-                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between">
-                    <span id="legend-text">Click to Learn to How to Read</span> <i class="icon-question"></i>
+                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between" data-title="Explore the data over time" data-intro="Use the drop down to see how happiness has changed from year-to-year" data-step = 5>
+                    <span>Click to Learn to How to Read</span> <i class="icon-question"></i>
                 </button>
 
                 <button id="btn-sort" type="button" class="fs-7 fw-light d-flex mt-2 align-items-center justify-content-between", onclick="myFunction()">
@@ -68,7 +70,6 @@
                 <div id="scrubber-container", class="mt-4"></div>
 
             </div>
- 
             <div class="btn-play position-absolute" id="btn-next">
                 <div class="icon-angle-right fs-3"></div>
             </div>
@@ -174,6 +175,8 @@
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./static/components/util.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.0.1/intro.min.js"></script> <!--Intro -->
+
 
     <!-- Components -->
 
@@ -193,6 +196,13 @@
     <script type="text/javascript" src="./static/components/Launch.js"></script>
     <script type="text/javascript" src="./static/components/valueChart.js"></script>
     <script type="text/javascript" src="./static/components/profile.js"></script>
+
+    <script>
+        var timer = d3.timer(function(){
+           introJs().start();
+           timer.stop();
+        }, 1000);
+     </script>
 
 </body>
 
