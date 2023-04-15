@@ -18,6 +18,7 @@ const btnNext = d3.select('#btn-next');
 const btnPre = d3.select('#btn-pre');
 // const selectYear = d3.select("#select_year");
 const btnSort = d3.select('#btn-sort');
+const btnSearch = d3.select('#btn-search');
 
 // const select_year = document.querySelector('#select-year');
 let currentYear = 2021
@@ -31,7 +32,6 @@ const yearScrubber = Scrubber(years, {
 });
 yearScrubber.id = 'year-scrubber';
 document.querySelector("#scrubber-container").append(yearScrubber);
-
 
 
 // const urlSearchParams = new URLSearchParams(window.location.search);
@@ -113,30 +113,60 @@ Promise.all([presentData_row, pastData_row])
             currentYear = +yearScrubber.value;
             presentDataNow = presentData.filter(d => d.year === currentYear);
             allData.present = presentDataNow.sort((a,b) => a.region_order - b.region_order);
-            chartVis = chart(visContainer, allData, sortBranch);
+            chartVis = chart(visContainer, allData, sortBranch, false);
             chartVis.legend(showLegend);
         })
 
 
         btnSort.on('click', function () {
             sortBranch = !sortBranch
-            chartVis = chart(visContainer, allData, sortBranch);
+            chartVis = chart(visContainer, allData, sortBranch, false);
             chartVis.legend(showLegend);
         });
 
+        const searchInput = document.querySelector("#search-input");
+
+        let searchMode = true;
+        searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            btnSearch.dispatch('click');
+        }
+        });
+
+        btnSearch.on("click", () => {
+        // Reset the selected and faded classes
+        visContainer.selectAll(".selected").classed("selected", false);
+        visContainer.selectAll(".faded").classed("faded", false);
+        
+        if (searchMode) {
+            const searchValue = document.getElementById("search-input").value.trim();
+        
+            if (searchValue) {
+            highlightNodeById(visContainer, searchValue);
+            }
+        
+            btnSearch.text('Clear');
+        } else {
+            // Clear the search input
+            document.getElementById("search-input").value = '';
+            btnSearch.text('Search');
+        }
+        
+        // Toggle search mode
+        searchMode = !searchMode;
+        });
+        
 
         legendBtn.on('click', function() {
             showLegend = !showLegend;
             chartVis.legend(showLegend);
+            legendBtn.select('i').classed('icon-question', !showLegend);
+            legendBtn.select('i').classed('icon-close', showLegend);
+            d3.selectAll('.hoverable').classed('hovering', !showLegend);        
 
-            legendBtn.select('i').classed('icon-question', !showLegend)
-            legendBtn.select('i').classed('icon-close', showLegend)
-
-            d3.selectAll('.hoverable').classed('hovering',!showLegend)
         });
 
         menuList.style('left','1.5em')
         menuList.classed('open',true)
-
 
     })

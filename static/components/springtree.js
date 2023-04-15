@@ -1,4 +1,4 @@
-const springtree = (_, data, treekeys, sort) => {
+const springtree = (_, data, treekeys, sort, growtree) => {
   let dom = _;
   let _width = null;
   let _height = null;
@@ -147,7 +147,7 @@ const springtree = (_, data, treekeys, sort) => {
     // console.log(drawData);
     drawData.forEach((d) => {
       // x as an angle and y as a radius
-
+      d.id = d.id; //xhao update
       d.y0 = d.y;
       // d.target = { "angle": d.x + _startAngle, "radius": d.y * scaleL(d.data[branch_key]) };
       d.target = {
@@ -178,6 +178,7 @@ const springtree = (_, data, treekeys, sort) => {
       }));
 
       d.children.forEach((e) => {
+        e.id = e.id;
         e.coreR = 3;
         e.coreColor = color(e.data[core_key]);
         // e.strokeWidth = scaleR(e.data.pop_area);
@@ -244,7 +245,7 @@ const springtree = (_, data, treekeys, sort) => {
       .data(drawData)
       .join("g")
       .attr("class", (d) => `branch ${d.data.id}`)
-      // .attr('id', d => d.data.id)
+      .attr('id', d => d.data.id) //xhao update
       .html(
         (d, i) => `
               <animateTransform
@@ -257,24 +258,43 @@ const springtree = (_, data, treekeys, sort) => {
                 repeatCount="indefinite" />
               `
       );
-
-    branch
+    
+    if (growtree===false){
+      branch
+        .selectAll(".branch-fill")
+        .data((d) => [d])
+        .join("path")
+        .attr("class", "branch-fill")
+        .attr("fill", (d) => d.fillColor)
+        .attr("fill-opacity", (d) => d.fillOpacity)
+        .attr("stroke", (d) => d.strokeColor)
+        .attr("stroke-opacity", (d) => d.strokeOpacity)
+        .attr("stroke-width", (d) => d.strokeWidth)
+        .attr("d", (d) => d.link)
+        .attr("id", (d) => d.data.id);
+    } else {
+    const branchFill = branch
       .selectAll(".branch-fill")
       .data((d) => [d])
-      .join("path")
+      .join((enter) => enter.append("path").attr("opacity", 0))
       .attr("class", "branch-fill")
       .attr("fill", (d) => d.fillColor)
       .attr("fill-opacity", (d) => d.fillOpacity)
       .attr("stroke", (d) => d.strokeColor)
       .attr("stroke-opacity", (d) => d.strokeOpacity)
       .attr("stroke-width", (d) => d.strokeWidth)
-      .attr("d", (d) => d.link);
+      .attr("d", (d) => d.link)
+      .attr("id", (d) => d.data.id);
+
+    branchFill.transition().delay(3*dur).duration(dur).attr("opacity", 1);
+    }
 
     const node = branch
       .selectAll(".node")
       .data((d) => d.children)
       .join("g")
       .attr("class", (d) => `node ${d.data.id}`)
+      .attr("id", (d) => d.data.id)  //xhao update 
       .selectAll(".node-g")
       .data((d) => [d])
       .join("g")
@@ -294,6 +314,7 @@ const springtree = (_, data, treekeys, sort) => {
         updateTooltip();
       });
 
+    if (growtree===false){
     node
       .selectAll(".link-fill")
       .data((d) => [d])
@@ -304,7 +325,6 @@ const springtree = (_, data, treekeys, sort) => {
       .attr("stroke-opacity", (d) => d.branch_strokeOpacity)
       .attr("stroke-width", (d) => d.branch_strokeWidth)
       .attr("d", (d) => d.link);
-
     node
       .selectAll(".leaf")
       .data((d) => [d])
@@ -313,7 +333,6 @@ const springtree = (_, data, treekeys, sort) => {
       .attr("fill", (d) => d.leaf_fillColor)
       .style("fill-opacity", (d) => d.leaf_fillOpacity)
       .attr("d", (d) => d.leave);
-
     node
       .selectAll(".core")
       .data((d) => [d])
@@ -323,6 +342,44 @@ const springtree = (_, data, treekeys, sort) => {
       .attr("fill", (d) => d.coreColor)
       .attr("cx", (d) => d.a.x)
       .attr("cy", (d) => d.a.y);
+    } else {
+    const linkFill = node
+      .selectAll(".link-fill")
+      .data((d) => [d])
+      .join((enter) => enter.append("path").attr("opacity", 0))
+      .attr("class", "link-fill")
+      .attr("fill", "none")
+      .attr("stroke", (d) => d.branch_strokeColor)
+      .attr("stroke-opacity", (d) => d.branch_strokeOpacity)
+      .attr("stroke-width", (d) => d.branch_strokeWidth)
+      .attr("d", (d) => d.link);
+
+    linkFill.transition().delay(4*dur).duration(dur).attr("opacity", 1);
+    const leaf = node
+    .selectAll(".leaf")
+    .data((d) => [d])
+    .join((enter) => enter.append("path").attr("opacity", 0))
+    .attr("class", "leaf")
+    .attr("fill", (d) => d.leaf_fillColor)
+    .style("fill-opacity", (d) => d.leaf_fillOpacity)
+    .attr("d", (d) => d.leave);
+
+    leaf.transition().delay(5*dur).duration(dur).attr("opacity", 1);
+    
+    const  core =  node
+    .selectAll(".core")
+    .data((d) => [d])
+    .join((enter) => enter.append("circle").attr("opacity", 0))
+    // .join("circle")
+    .attr("class", "core")
+    .attr("r", (d) => d.coreR)
+    .attr("fill", (d) => d.coreColor)
+    .attr("cx", (d) => d.a.x)
+    .attr("cy", (d) => d.a.y);
+    
+    core.transition().delay(6*dur).duration(dur).attr("opacity", 1);
+  
+  } 
   }
 
   update.size = function (_) {

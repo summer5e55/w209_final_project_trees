@@ -1,4 +1,4 @@
-function chart(_, data, sortBranch, legend_offset) {
+function chart(_, data, sortBranch, growtree) {
     const dom = _;
     let _width = null;
     let _height = null;
@@ -51,8 +51,8 @@ function chart(_, data, sortBranch, legend_offset) {
         .join('g').attr('class', 'legend')
 
     //  // Clear any existing tree legend
-    legend.selectAll('.tree-legend').remove();
-    legend.selectAll('.treeroot-legend').remove();
+    // legend.selectAll('.tree-legend').remove();
+    // legend.selectAll('.treeroot-legend').remove();
 
 
     const treeLegend = legend.selectAll('.tree-legend').data(d => [d])
@@ -60,6 +60,27 @@ function chart(_, data, sortBranch, legend_offset) {
         
     const treerootLegend = legend.selectAll('.treeroot-legend').data(d => [d])
         .join('g').attr('class', 'treeroot-legend')
+    
+   
+    const legendImage = legend.selectAll('.legend-image').data(d => [d])
+        .join('image')
+        .attr('class', 'legend-image')
+        .attr('width', 1000) // Set the width of the image
+        .attr('height', 900) // Set the height of the image
+        .attr('x', (d, i) => 1200 * i - 500)
+        .attr('y', -90)
+        .attr('xlink:href', d => {
+            switch (d.id) {
+                case 'spring':
+                    return './static/imgs/spring_legend.png';
+                case 'summer':
+                    return './static/imgs/summer_legend.png';
+                case 'fall':
+                    return './static/imgs/fall_legend.png';
+                default:
+                    return './static/imgs/winter_legend.png';
+            }
+        });
 
 
     seasonViz.each(function(s) {
@@ -79,31 +100,27 @@ function chart(_, data, sortBranch, legend_offset) {
             // console.log(treeDom.node().getBoundingClientRect());
 
 
-            treeroot(treerootDom, data.past, s.rootkey).offset_y(410).trunk_h(200)(); //leave l max = 160, branch max = 500/2
-            treeroot_legend(treerootlegendDom, g, s.rootkey)(410, 200, s.x)
+            treeroot(treerootDom, data.past, s.rootkey, growtree).offset_y(410).trunk_h(200)(); //leave l max = 160, branch max = 500/2
+            // treeroot_legend(treerootlegendDom, g, s.rootkey)(410, 200, s.x)
 
             switch (s.id) {
                 case 'spring':
-                    springtree(treeDom, _data,s.treefilter, sortBranch).size(500)()
-                    if (legend_offset===true){
-                    springtree_legend(treelegendDom, g,leafId, branchId)(500 - 90, s.x)
-                    } else {
-                        springtree_legend(treelegendDom, g,leafId, branchId)(500 -90 + 20, s.x - 250)
-                    }
+                    springtree(treeDom, _data,s.treefilter, sortBranch, growtree).size(500)()
+                    // springtree_legend(treelegendDom, g,leafId, branchId)(500 - 90, s.x)
                     break;
                 case 'summer':
                     summertree(treeDom, _data,s.treefilter, sortBranch).size(500)()
-                    summertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
+                    // summertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
                     
                     break;
                 case 'fall':
                     falltree(treeDom, _data,s.treefilter, sortBranch).size(500)()
-                    falltree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
+                    // falltree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
     
                     break;
                 default:
                     wintertree(treeDom, _data,s.treefilter, sortBranch).size(500)()
-                    wintertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
+                    // wintertree_legend(treelegendDom, g, leafId, branchId)(500 - 90, s.x)
                     
             }
 
@@ -136,11 +153,13 @@ function chart(_, data, sortBranch, legend_offset) {
 
     update.legend = (show) => {
         if (show) {
-            legend.classed('d-none', false);
-            treeViz.attr('opacity', 0.1);
-            treerootViz.attr('opacity', 0.3);
+            // legend.classed('d-none', false);
+            legendImage.attr('display','block');
+            treeViz.attr('opacity', 0.0);
+            treerootViz.attr('opacity', 0.0);
         } else {
-            legend.classed('d-none', true);
+            // legend.classed('d-none', true);
+            legendImage.attr('display','none');
             treeViz.attr('opacity', 1);
             treerootViz.attr('opacity', 1);
         }

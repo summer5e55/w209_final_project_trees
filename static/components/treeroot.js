@@ -1,14 +1,15 @@
-function treeroot(_, data,keys,_truckColor) {
+function treeroot(_, data,keys,growtree) {
     const dom = _;
     let _offset_y = 500;
     let _startAngle = Math.PI * 0.5;
     let _trunk_h = 200;
     let _key;
+
     // let _branchColor = "#ad9b5d";
     const trunk_w = 8;
 
     const scaleL = d3.scaleLinear().range([0.7, 1]).nice();
-    const truckColor = _truckColor || "#b0a39e";
+    const truckColor = "#b0a39e";
 
     const _data = { name: 'all', children: [] };
     keys.forEach(k => {
@@ -102,20 +103,23 @@ function treeroot(_, data,keys,_truckColor) {
 
         const trunks = dom.selectAll('.trunks').data([0])
             .join('g').attr('class', 'trunks')
-
+        if (growtree==false){
         trunks.selectAll('.trunk').data([0])
             .join('path').attr('class', 'trunk')
             // .attr('d', `M0 0 v${_trunk_h}`)
             .attr('d', `M0 0 C${-2} 0 ${-15} ${_trunk_h * 0.5} ${-trunk_w/2} ${_trunk_h} h${trunk_w} C${-10} ${_trunk_h * 0.5} ${2} 0 0 0`)
-            // .attr("fill", "#ad9b5d")
-            // .attr("stroke", "#ad9b5d")
-            // .attr("stroke-width", 1)
-            // .attr("fill", "#6e5f42")
-            // .attr("stroke", "#6e5f42")
-            // .attr('stroke','#9f8d57')
-            // .attr('fill','#9f8d57')
             .attr("fill", truckColor)
             .attr("stroke", truckColor)
+        }else{
+            const trunk = trunks.selectAll('.trunk').data([0])
+            .join(enter => enter.append('path').attr("opacity",0))
+            .attr('class', 'trunk')
+            // .attr('d', `M0 0 v${_trunk_h}`)
+            .attr('d', `M0 0 C${-2} 0 ${-15} ${_trunk_h * 0.5} ${-trunk_w/2} ${_trunk_h} h${trunk_w} C${-10} ${_trunk_h * 0.5} ${2} 0 0 0`)
+            .attr("fill", truckColor)
+            .attr("stroke", truckColor)
+            trunk.transition().delay(2*dur).duration(dur).attr("opacity",1);
+        }
 
         roots.selectAll('.node-hover').data(d => d.children)
             .join('path').attr('class', 'node-hover hoverable hovering')
@@ -135,13 +139,11 @@ function treeroot(_, data,keys,_truckColor) {
                 d3.event.stopPropagation();
                 updateTooltip();
             })
-            // .style('cursor', 'pointer')
-
+        
+        if (growtree===false){
         const node = roots.selectAll('.root-link').data(d => d.children)
             .join('g').attr('class', 'root-link')
             .attr("stroke-linecap","round")
-            
-
 
         node.selectAll('.root-node').data(d => [d])
             .join('path')
@@ -174,41 +176,81 @@ function treeroot(_, data,keys,_truckColor) {
             .attr("stroke-width", d => d.strokeWidth)
             .attr("d", d => d.link)
 
+    }else{
+        const node = roots.selectAll('.root-link').data(d => d.children)
+        .join('g')
+        .attr('class', 'root-link')
+        .attr("stroke-linecap","round")
 
-        const nums = dom.selectAll('.root-branch-nums').data([0])
-            .join('g').attr('class', 'root-branch-nums')
-            .classed('d-none', true)
+        const root_node = node.selectAll('.root-node').data(d => [d])
+            .join(enter => enter.append('path').attr('opacity',0))
+            .attr('class', 'root-node')
+            .attr("fill", "none")
+            .attr("stroke", d => d.strokeColor)
+            // .attr("stroke-opacity", 0.4)
+            .attr("stroke-width", d => d.strokeWidth)
+            .attr("d", d => d.link)
+        root_node.transition().delay(dur).duration(dur).attr("opacity",1);
 
-        nums.selectAll('.root-branch-num').data(drawData)
-            .join('text')
-            .attr('class', 'root-branch-num')
-            .attr("fill", textColor)
-            .text((d,i) => `${i+1}`)
-            .attr('x', d => d.target.num_x)
-            .attr('y', d => d.target.num_y)
-            .attr('font-size',12)
-            .attr('text-anchor', 'middle')
-            
-        const arrows = roots.filter((d,i) => i === 0)
-            .selectAll('.root-arrow').data(d => [d])
-            .join('g').attr('class', 'root-arrow')
-            .classed('d-none', true)
-        arrows.selectAll('.arrow-label').data(d => [d.children[0], d.children[d.children.length-1]])
-            .join('text').attr('class', 'arrow-label')
-            // .text((d,i) => i === 0 ? 'earliest year' : 'latest year')
-            .text((d,i) => i === 0 ? '2010' : '2020')
-            // .attr('text-anchor', (d,i) => i === 0 ?'middle' : 'end')
-            .attr('text-anchor','middle')
-            .attr('font-size',12)
-            .attr("fill", textColor)
-            .attr('x', d => `${Math.sin(d.target.angle) * drawData[0].children[0].target.radius}`)
-            .attr('y', (d,i) => `${-Math.cos(d.target.angle) * drawData[0].children[0].target.radius + (i === 0? -12/2:(drawData.length > 1?12:-12/2))}`)
-        arrows.selectAll('.arrow-path').data(d => [d])
-            .join('path').attr('class', 'arrow-path')
-            .attr('fill','none')
-            .attr('stroke',textColor)
-            .attr('stroke-width',1)
-            .attr('d', d => d3.lineRadial().angle(e => e.target.angle).radius(d.children[0].target.radius).curve(d3.curveBasis)(d.children))
+        const root_node_mark = node.selectAll('.root-node-mark').data(d => [d])
+            .join(enter => enter.append("circle").attr("opacity",0))
+            .attr('class', 'root-node-mark')
+            .attr("fill", d => d.strokeColor)
+            .attr("stroke-width", 0)
+            .attr("r", d => d.markR)
+            .attr("cx", d => d.target.x)
+            .attr("cy", d => d.target.y)
+        root_node_mark.transition().delay(dur).duration(dur).attr("opacity",1);
+
+        const root_branch = roots.selectAll('.root-branch').data(d => [d])
+            .join('path')
+            .attr('class', 'root-branch')
+            // .attr("fill", "none")
+            // .attr("stroke", "rgba(173, 155, 93,1)")
+            // .attr("fill", "#9f8d57")
+            // .attr("stroke", "#9f8d57")
+            .attr("fill", truckColor)
+            .attr("stroke", truckColor)
+            .attr("stroke-width", d => d.strokeWidth)
+            .attr("d", d => d.link)
+        
+        root_branch.transition().delay(dur).duration(dur).attr("opacity",1);
+    }
+    const nums = dom.selectAll('.root-branch-nums').data([0])
+    .join('g').attr('class', 'root-branch-nums')
+    .classed('d-none', true)
+
+    nums.selectAll('.root-branch-num').data(drawData)
+        .join('text')
+        .attr('class', 'root-branch-num')
+        .attr("fill", textColor)
+        .text((d,i) => `${i+1}`)
+        .attr('x', d => d.target.num_x)
+        .attr('y', d => d.target.num_y)
+        .attr('font-size',12)
+        .attr('text-anchor', 'middle')
+        
+    const arrows = roots.filter((d,i) => i === 0)
+        .selectAll('.root-arrow').data(d => [d])
+        .join('g').attr('class', 'root-arrow')
+        .classed('d-none', true)
+    arrows.selectAll('.arrow-label').data(d => [d.children[0], d.children[d.children.length-1]])
+        .join('text').attr('class', 'arrow-label')
+        // .text((d,i) => i === 0 ? 'earliest year' : 'latest year')
+        .text((d,i) => i === 0 ? '2010' : '2020')
+        // .attr('text-anchor', (d,i) => i === 0 ?'middle' : 'end')
+        .attr('text-anchor','middle')
+        .attr('font-size',12)
+        .attr("fill", textColor)
+        .attr('x', d => `${Math.sin(d.target.angle) * drawData[0].children[0].target.radius}`)
+        .attr('y', (d,i) => `${-Math.cos(d.target.angle) * drawData[0].children[0].target.radius + (i === 0? -12/2:(drawData.length > 1?12:-12/2))}`)
+    arrows.selectAll('.arrow-path').data(d => [d])
+        .join('path').attr('class', 'arrow-path')
+        .attr('fill','none')
+        .attr('stroke',textColor)
+        .attr('stroke-width',1)
+        .attr('d', d => d3.lineRadial().angle(e => e.target.angle).radius(d.children[0].target.radius).curve(d3.curveBasis)(d.children))
+
     }
 
     update.offset_y = function(_) {
@@ -221,6 +263,7 @@ function treeroot(_, data,keys,_truckColor) {
         _trunk_h = _;
         return this;
     }
+
     // update.truckColor = function(_) {
     //     if (typeof _ === 'undefined') return truckColor;
     //     truckColor = _;

@@ -148,37 +148,47 @@ function Scrubber(values, {
   form.dispatchEvent(new CustomEvent('dispose'));
   return form;
 }
-// // Usage:
-// const targetNode = d.targetnode.node();
-// const svg = d3.select(targetNode.ownerSVGElement);
-// const position = getNodePositionRelativeToSvg(targetNode, svg.node());
-
-// console.log('Target node position:', position);
 
 
-// const regionorder = [
-//     "America North",
-//     "America Latin and Caribbean",
+function highlightNode(dom, selectedNode) {
+  const selectedNodeId = selectedNode.data.id;
+  dom.selectAll(".node").each(function (d) {
+    // console.log(d.data)
+    const node = d3.select(this);
+    if (d.data.id === selectedNodeId) {
+      node.classed("selected", true);
+    } else {
+      node.classed("faded", true);
+    }
+  });
 
+  dom.selectAll(".branch").each(function (d) {
+    const branch = d3.select(this);
+    if (d.data.id === selectedNode.parent.data.id) {
+      branch.classed("selected", true);
+    } else {
+      branch.classed("faded", true);
+    }
+  });
+  dom.selectAll(".trunks").each( function (d){
+    const trunk = d3.select(this);
+    trunk.classed("faded", true);
+  })
+  dom.selectAll(".roots").each( function (d){
+    const root = d3.select(this);
+    root.classed("faded", true);
+  })
+}
 
-//     "Africa North",
-//     "Africa Sub-Sahara",
+function highlightNodeById(dom, nodeId) {
+  // dom.selectAll('.tree-legend').remove();
+  // dom.selectAll('.treeroot-legend').remove();
+  const selectedNode = dom.select(`.leaf-${nodeId}`);
+  if (selectedNode.empty()) {
+    alert("Country not found.")
+  } else {
+    highlightNode(dom, selectedNode.datum()); 
+  }
+}
 
-//     "Europe South",
-//     "Europe West",
-//     "Europe North",
-//     "Europe East",
-
-//     "Asia West",
-//     "Asia Central",
-//     "Asia South",
-
-//     "Asia East",
-//     "Asia South-East",
-
-
-//     // "Micronesia",
-//     // "Melanesia",
-//     "Polynesia",
-//     "Australia and New Zealand",
-// ]
+const dur = 700;

@@ -18,3 +18,12 @@
 .hoverable.hovering{
     cursor: pointer;
 }
+
+.selected {
+    opacity: 1;
+  }
+  
+  .faded {
+    opacity: 0.2;
+  }
+  
