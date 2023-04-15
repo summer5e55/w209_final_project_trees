@@ -148,6 +148,10 @@ Promise.all([presentData_row, pastData_row])
             allData.present = presentDataNow.sort((a,b) => a.region_order - b.region_order);
             chartVis = chart(visContainer, allData, sortBranch, false);
             chartVis.legend(showLegend);
+            const search_val = document.getElementById('search-input').value
+            if (search_val != ''){
+                highlightNodeById(visContainer, search_val)
+            }
         })
 
 
