@@ -91,8 +91,6 @@ function treeroot(_, data,keys,growtree) {
 
     function update() {
         dom.attr('transform', `translate(${0},${_offset_y})`)
-
-
         const roots = dom.selectAll('.roots').data(drawData)
             .join('g').attr('class', 'roots')
             .attr('transform', `translate(0, ${_trunk_h})`)
@@ -118,7 +116,7 @@ function treeroot(_, data,keys,growtree) {
             .attr('d', `M0 0 C${-2} 0 ${-15} ${_trunk_h * 0.5} ${-trunk_w/2} ${_trunk_h} h${trunk_w} C${-10} ${_trunk_h * 0.5} ${2} 0 0 0`)
             .attr("fill", truckColor)
             .attr("stroke", truckColor)
-            trunk.transition().delay(2*dur).duration(dur).attr("opacity",1);
+            trunk.transition().delay((wait_dur + 1)*dur).duration(dur).attr("opacity",1);
         }
 
         roots.selectAll('.node-hover').data(d => d.children)
@@ -178,9 +176,10 @@ function treeroot(_, data,keys,growtree) {
 
     }else{
         const node = roots.selectAll('.root-link').data(d => d.children)
-        .join('g')
+        .join("g")
         .attr('class', 'root-link')
         .attr("stroke-linecap","round")
+
 
         const root_node = node.selectAll('.root-node').data(d => [d])
             .join(enter => enter.append('path').attr('opacity',0))
@@ -190,7 +189,7 @@ function treeroot(_, data,keys,growtree) {
             // .attr("stroke-opacity", 0.4)
             .attr("stroke-width", d => d.strokeWidth)
             .attr("d", d => d.link)
-        root_node.transition().delay(dur).duration(dur).attr("opacity",1);
+        root_node.transition().delay(wait_dur * dur).duration(dur).attr("opacity",1);
 
         const root_node_mark = node.selectAll('.root-node-mark').data(d => [d])
             .join(enter => enter.append("circle").attr("opacity",0))
@@ -200,7 +199,7 @@ function treeroot(_, data,keys,growtree) {
             .attr("r", d => d.markR)
             .attr("cx", d => d.target.x)
             .attr("cy", d => d.target.y)
-        root_node_mark.transition().delay(dur).duration(dur).attr("opacity",1);
+        root_node_mark.transition().delay(wait_dur*dur).duration(dur).attr("opacity",1);
 
         const root_branch = roots.selectAll('.root-branch').data(d => [d])
             .join('path')
@@ -214,7 +213,7 @@ function treeroot(_, data,keys,growtree) {
             .attr("stroke-width", d => d.strokeWidth)
             .attr("d", d => d.link)
         
-        root_branch.transition().delay(dur).duration(dur).attr("opacity",1);
+        root_branch.transition().delay(wait_dur *dur).duration(dur).attr("opacity",1);
     }
     const nums = dom.selectAll('.root-branch-nums').data([0])
     .join('g').attr('class', 'root-branch-nums')

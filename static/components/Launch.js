@@ -33,12 +33,6 @@ const yearScrubber = Scrubber(years, {
 yearScrubber.id = 'year-scrubber';
 document.querySelector("#scrubber-container").append(yearScrubber);
 
-
-// const urlSearchParams = new URLSearchParams(window.location.search);
-
-// let currentYear = Number(urlSearchParams.get('year'));
-
-
 Promise.all([presentData_row, pastData_row])
     .then(([presentData, pastData]) => {
 
@@ -167,6 +161,5 @@ Promise.all([presentData_row, pastData_row])
         });
 
         menuList.style('left','1.5em')
-        menuList.classed('open',true)
-
+        menuList.classed('open',true)    
     })

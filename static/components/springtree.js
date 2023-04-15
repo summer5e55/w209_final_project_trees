@@ -286,7 +286,7 @@ const springtree = (_, data, treekeys, sort, growtree) => {
       .attr("d", (d) => d.link)
       .attr("id", (d) => d.data.id);
 
-    branchFill.transition().delay(3*dur).duration(dur).attr("opacity", 1);
+    branchFill.transition().delay((wait_dur+2)*dur).duration(dur).attr("opacity", 1);
     }
 
     const node = branch
@@ -354,7 +354,7 @@ const springtree = (_, data, treekeys, sort, growtree) => {
       .attr("stroke-width", (d) => d.branch_strokeWidth)
       .attr("d", (d) => d.link);
 
-    linkFill.transition().delay(4*dur).duration(dur).attr("opacity", 1);
+    linkFill.transition().delay((wait_dur+3)*dur).duration(dur).attr("opacity", 1);
     const leaf = node
     .selectAll(".leaf")
     .data((d) => [d])
@@ -364,7 +364,7 @@ const springtree = (_, data, treekeys, sort, growtree) => {
     .style("fill-opacity", (d) => d.leaf_fillOpacity)
     .attr("d", (d) => d.leave);
 
-    leaf.transition().delay(5*dur).duration(dur).attr("opacity", 1);
+    leaf.transition().delay((wait_dur+4)*dur).duration(dur).attr("opacity", 1);
     
     const  core =  node
     .selectAll(".core")
@@ -377,7 +377,7 @@ const springtree = (_, data, treekeys, sort, growtree) => {
     .attr("cx", (d) => d.a.x)
     .attr("cy", (d) => d.a.y);
     
-    core.transition().delay(6*dur).duration(dur).attr("opacity", 1);
+    core.transition().delay((wait_dur+5)*dur).duration(dur).attr("opacity", 1);
   
   } 
   }
