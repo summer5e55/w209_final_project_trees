@@ -28,7 +28,7 @@ function treeroot(_, data,keys,growtree) {
             t.change = t.value - dif;
             dif = t.value;
 
-            if(t.name > 2009 && t.name < 2021)values.children.push(t)
+            if(t.name > 2005 && t.name < 2022)values.children.push(t)
         })
         _data.children.push(values)
     })
@@ -236,7 +236,7 @@ function treeroot(_, data,keys,growtree) {
     arrows.selectAll('.arrow-label').data(d => [d.children[0], d.children[d.children.length-1]])
         .join('text').attr('class', 'arrow-label')
         // .text((d,i) => i === 0 ? 'earliest year' : 'latest year')
-        .text((d,i) => i === 0 ? '2010' : '2020')
+        .text((d,i) => i === 0 ? '2010' : '2021')
         // .attr('text-anchor', (d,i) => i === 0 ?'middle' : 'end')
         .attr('text-anchor','middle')
         .attr('font-size',12)

@@ -23,7 +23,7 @@ const btnSearch = d3.select('#btn-search');
 // const select_year = document.querySelector('#select-year');
 let currentYear = 2021
 
-const years = Array.from({length:12}, (_, i)=> 2010 + i);
+const years = Array.from({length:16}, (_, i)=> 2006 + i);
 const yearScrubber = Scrubber(years, {
     format: value => `${value}`,
     initial: currentYear - years[0],
