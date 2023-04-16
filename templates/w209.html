@@ -18,6 +18,14 @@
     <link rel="stylesheet" href="./static/styles/profile.css" />
     <link rel="stylesheet" href="./static/styles/index.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.0.1/introjs.css" />
+    <style>.about-image{
+        display: flex;
+        max-width: 97%;
+        height:auto;
+        justify-content: center;
+        padding-top: 20px; 
+        padding-bottom:20px;
+    }</style>
 
 </head>
 
@@ -40,11 +48,11 @@
                     <div class="menu-treecontent mb-2"></div>
                     <div class="menu-rootcontent"></div>
                 </div>
-                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between" data-title="Detailed explaination of tree encoding" data-intro="Click to read leaf, core, branch and root definition for all four seasons" data-step = 5>
+                <button id="btn-legend" type="button" class="fs-7 fw-light mt-3 d-flex align-items-center justify-content-between" data-title="Detailed explaination of tree encoding" data-intro="Click to read leaf, core, branch and root definition for all four seasons" data-step = 6>
                     <span>Click to Learn to How to Read</span> <i class="icon-question"></i>
                 </button>
 
-                <button id="btn-sort" type="button" class="fs-7 fw-light d-flex mt-2 align-items-center justify-content-between" data-title="Sort tree by branch length" data-intro="Move mouse over sorted branch to see which region rank the highest vs lowest" data-step="6"
+                <button id="btn-sort" type="button" class="fs-7 fw-light d-flex mt-2 align-items-center justify-content-between" data-title="Sort tree by branch length" data-intro="Move mouse over sorted branch to see which region rank the highest vs lowest" data-step="7"
                     onclick="myFunction()">                    
                    <div id="btn-txt">Sort Branch</div>
                    <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" width="30%" heihgt="30%" viewBox="0 150 744 1052">
@@ -63,15 +71,15 @@
                   }
                 } 
                 </script>
-                <div class="input-group input-group-sm" id="search-box" data-title="Search Country" data-intro="Find the country your are interested in the tree" data-step="7">
+                <div class="input-group input-group-sm" id="search-box" data-title="Search Country" data-intro="Find the country your are interested in the tree" data-step="8">
                     <input type="search" id="search-input" class="form-control rounded fs-7" placeholder="Country ISO Code" aria-label="Search" aria-describedby="search-addon" />
                     <button type="button" id="btn-search" class="fs-7 fw-light">Search</button>
                 </div>
 
-                <div id="scrubber-container", class="mt-4" data-title="Visualize tree over time" data-intro="Rounder/Spiky tree shape means less/more disparity" data-step="8"></div>
+                <div id="scrubber-container", class="mt-4" data-title="Visualize tree over time" data-intro="Rounder/Spiky tree shape means less/more disparity" data-step="9"></div>
 
             </div>
-            <div class="btn-play position-absolute" id="btn-next">
+            <div class="btn-play position-absolute" id="btn-next" data-title="Explore the seasons" data-intro="Click here to explore each season" data-step = 5>
                 <div class="icon-angle-right fs-3"></div>
             </div>
         </div>
@@ -125,7 +133,7 @@
                     </div>
                     <div class="row">
                         <h2 class="fw-lighter fs-1 lh-1 text-uppercase text-center">Trees of Happiness</h2>
-                        <h3 class="fs-4 fw-light text-center">Are people happy around the wolrd in recent years?</h3>
+                        <h3 class="fs-4 fw-light text-center">Are people happy around the world in recent years?</h3>
                         <div class="col-12 mt-5 mb-3">
                             <img class="col-12" src="./static/imgs/fourseasons_long.png">
                         </div>
@@ -156,6 +164,51 @@
                                 <img class="col-12" src="./static/imgs/root-img.png">
                                 <p>Roots show global performances over past 10 years (from 2010 to 2021). The past provides foundation for the present just like roots of a tree.</p>
                                 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- About the underlying data -->
+                    <br>
+                    <div class="row">
+                        <h3 class="fs-4 lh-1 fw-light">About the Gallup World Poll Happiness Source Data</h3>
+                        <p>Since 20xx Gallup World Poll has asked respondents key questions to inform insights on happiness.</p>
+                        <p>This visualization is fueled by average responses within each country to the following types of questions: 
+                            <ul style="list-style: disc; margin-left: 20px;">
+                                <li style="margin-left: 20px;">Life Today Score: "Please imagine a ladder with steps numbered from zero at the bottom to 10 at the top.The top of the ladder represents 
+                                    the best possible life for you and the bottom of the ladder represents the worst possible life for you. 
+                                    On which step of the ladder would you say you personally feel you stand at this time? (ladder-present)" </li>
+                                <li style="margin-left: 20px;"> Social Support: “If you were in trouble, do you have relatives or friends you can count on to help you whenever you need them, or not?" </li>
+                                <li style="margin-left: 20px;"> Freedom (To Make Choices): "Are you satisfied or dissatisfied with your freedom to choose what you do with your life?"</li>
+                                <li style="margin-left: 20px;"> Corruption (Business and Government): "Is corruption widespread throughout the [government or businesses] in this country or not?"</li>
+                                <li style="margin-left: 20px;"> Enjoyment: "Did you experience enjoyment during a lot of the day yesterday?"" </li>
+                                <li style="margin-left: 20px;"> Worry/Sadness/Stress/Anger:"Did you experience [worry, sadness, stress, anger] feelings during a lot of the day yesterday?" </li>
+                            </ul>
+                        </p>
+                        <div>
+                            <p>To help ground you in the range of respondent data, the chart below shows how some of the 5 highest happiness scored countries' answers 
+                                compare to the 5 lowest happiness scored countries' answers  </p>
+                        </div>
+                        <div><img class="about-image" src="./static/imgs/top5_factors.png" alt="top 5 factors" style="margin: 0 auto;"></div>
+                        <div><img class="about-image" src="./static/imgs/bottom5_factors.png" alt="bottom 5 factors" style="margin: 0 auto;"></div>
+                        <div>
+                        <p>The tree visualization includes data from all countries, ages, and genders - for context, below is a view of how world happiness scores have changed by age and gender over time</p>
+                        <div class="col-12 d-flex mt-5 px-5">
+                            <div class="col-6 pe-3"> 
+                                <img class="about-image" src="./static/imgs/worldwide_age.png" alt="scores by age worldwide" >
+                            </div>
+
+                            <div class="col-6 pe-3"> 
+                                <img class="about-image" src="./static/imgs/worldwide_sex.png" alt="scores by sex worldwide" >
+                            </div>
+                        </div>
+                        </div>
+                        <div>
+                            <h4>Happiness Changes Like Seasons</h4>
+                            <p>Finally, the tree visualizations highlight that global happiness continues changes like the seasons over time, due to a wide range of influences. 
+                                For added perspective, visually note the wide range of scores through the years from country to country (and within each country). 
+                            </p>
+                            <div> 
+                                <img class="about-image" src="./static/imgs/happiness_gradient.png" alt="large happiness gradient" style="margin: 0 auto;" >
                             </div>
                         </div>
                     </div>
